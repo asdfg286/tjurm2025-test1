@@ -1,4 +1,8 @@
 #include "tests.h"
+#include<iostream>
+#include<cmath>
+using namespace std;
+
 // 练习1，实现库函数strlen
 int my_strlen(char *str) {
     /**
@@ -298,27 +302,25 @@ void hist_eq(float *in, int h, int w) {
      */
 
     // IMPLEMENT YOUR CODE HERE
-    for(int i=0;i<w*h;i++){
-
-   in[i]=static_cast<int>(in[i]);
-
-        
-    }
-    int n[256];
-    for(int i=0;i<256;i++){
-        
-     for(int j=0;j<w*h;j++){if(in[j]==i){n[i]++;}}
-   
+    int n[256] = {0};
+    
+    for (int i = 0; i < w * h; i++) {
+        int a = static_cast<int>(in[i]);
+        n[a]++;
     }
 
-    int N=w*h;
-    for(int i=0;i<256;i++){n[i]/=N;}
-    int s[256];
-    int a=0;
-    for(int i=0;i<256;i++){a+=n[i];s[i]=a;}
     
+    int N = w * h;
+    float cdf[256] = {0};
+    float sum = 0;
+    for (int i = 0; i < 256; i++) {
+        sum += n[i];
+        cdf[i] = sum / N;
+    }
 
 
-
-    
+    for (int i = 0; i < w * h; i++) {
+        int a = static_cast<int>(in[i]);
+        in[i] = std::round(cdf[a] * 255);
+    }
 }
