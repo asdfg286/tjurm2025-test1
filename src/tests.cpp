@@ -1,5 +1,4 @@
 #include "tests.h"
-
 // 练习1，实现库函数strlen
 int my_strlen(char *str) {
     /**
@@ -7,7 +6,7 @@ int my_strlen(char *str) {
      */
 
     // IMPLEMENT YOUR CODE HERE
-    return 0;
+    return (sizeof(str)/sizeof(str[0]))-1;
 }
 
 
@@ -19,6 +18,21 @@ void my_strcat(char *str_1, char *str_2) {
      */
 
     // IMPLEMENT YOUR CODE HERE
+
+    
+    while(*str_1 != '\0'){
+        str_1++;
+    }
+    
+    while(*str_2 != '\0'){
+        *str_1 = *str_2;
+        str_1++;
+        str_2++;
+    }
+    *str_1 = '\0';
+    
+
+    
 }
 
 
@@ -31,7 +45,30 @@ char* my_strstr(char *s, char *p) {
      */
 
     // IMPLEMENT YOUR CODE HERE
-    return 0;
+    
+    while(*s!='\0'){
+      char *s_temp=s;
+      char *p_temp=p;
+      
+       if(*s==*p){
+        char *a=s;
+       while(*s!='\0'&&*p!='\0'&&*s==*p){
+        
+        s_temp++;
+        p_temp++;
+        if(*p_temp=='\0'){
+        return a;
+        }
+        
+       }
+      
+       }
+   
+       s++; 
+    }
+    
+    
+    return nullptr;
 }
 
 
@@ -97,6 +134,23 @@ void rgb2gray(float *in, float *out, int h, int w) {
 
     // IMPLEMENT YOUR CODE HERE
     // ...
+
+   for(int i=0;i<h;i++){
+    
+    
+    for(int j=0;j<w;j++){
+        
+     
+    int p=i*w*3+j*3;
+    out[p]=0.1140*in[p]+0.5870*in[p+1]+0.2989*in[p+2];
+      
+    }
+
+
+   }
+
+
+    
 }
 
 // 练习5，实现图像处理算法 resize：缩小或放大图像
@@ -198,6 +252,29 @@ void resize(float *in, float *out, int h, int w, int c, float scale) {
 
     int new_h = h * scale, new_w = w * scale;
     // IMPLEMENT YOUR CODE HERE
+for(int x=0;x<new_w;x++){
+    for(int y=0;y<new_h;y++){
+    float x0=x/scale;
+    float y0=y/scale;
+    int x1=static_cast<int>(x0);
+    int y1=static_cast<int>(y0);
+    int x2 = x1 + 1;
+    int y2 = y1 + 1;
+    if (x2 >= w) {x2 = x1;}
+    if (y2 >= h) {y2 = y1;}
+    float dx=x0-x1;
+    float dy=y0-y1;
+    for(int i=0;i<c;i++){
+    int p1=in[(x1+y2*w)*c+i];
+    int p2=in[(x2+y2*w)*c+i];
+    int p3=in[(x1+y1*w)*c+i];
+    int p4=in[(x2+y1*w)*c+i];
+    out[(x+y*new_w)*c+i]=p1*(1-dx)*(1-dy)+p2*dx*(1-dy)+p3*(1-dx)*dy+p4*dx*dy;
+    }
+
+    }
+}
+   
 
 }
 
@@ -221,4 +298,27 @@ void hist_eq(float *in, int h, int w) {
      */
 
     // IMPLEMENT YOUR CODE HERE
+    for(int i=0;i<w*h;i++){
+
+   in[i]=static_cast<int>(in[i]);
+
+        
+    }
+    int n[256];
+    for(int i=0;i<256;i++){
+        
+     for(int j=0;j<w*h;j++){if(in[j]==i){n[i]++;}}
+   
+    }
+
+    int N=w*h;
+    for(int i=0;i<256;i++){n[i]/=N;}
+    int s[256];
+    int a=0;
+    for(int i=0;i<256;i++){a+=n[i];s[i]=a;}
+    
+
+
+
+    
 }
