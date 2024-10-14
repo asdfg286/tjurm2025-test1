@@ -10,7 +10,10 @@ int my_strlen(char *str) {
      */
 
     // IMPLEMENT YOUR CODE HERE
-    return (sizeof(str)/sizeof(str[0]))-1;
+int a=0;
+while(str[a]!='\0'){a++;}
+  
+    return a;
 }
 
 
@@ -49,14 +52,19 @@ char* my_strstr(char *s, char *p) {
      */
 
     // IMPLEMENT YOUR CODE HERE
-    
+    if (*p == '\0') {
+        return s;
+    }
     while(*s!='\0'){
       char *s_temp=s;
       char *p_temp=p;
       
        if(*s==*p){
         char *a=s;
-       while(*s!='\0'&&*p!='\0'&&*s==*p){
+        char *s_temp=s;
+        char *p_temp=p;
+      
+        while(*s_temp!='\0'&&*p_temp!='\0'&&*s_temp==*p_temp){
         
         s_temp++;
         p_temp++;
@@ -74,6 +82,7 @@ char* my_strstr(char *s, char *p) {
     
     return nullptr;
 }
+
 
 
 /**
@@ -146,16 +155,17 @@ void rgb2gray(float *in, float *out, int h, int w) {
         
      
     int p=i*w*3+j*3;
-    out[p]=0.1140*in[p]+0.5870*in[p+1]+0.2989*in[p+2];
+    
+    out[i*w+j]=0.1140*in[p]+0.5870*in[p+1]+0.2989*in[p+2];
       
     }
 
-
+    }
    }
 
 
     
-}
+
 
 // 练习5，实现图像处理算法 resize：缩小或放大图像
 void resize(float *in, float *out, int h, int w, int c, float scale) {
